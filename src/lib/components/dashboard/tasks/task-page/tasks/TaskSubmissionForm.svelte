@@ -40,6 +40,26 @@
   let fileUploader = $state<FileUploader | null>(null);
   let formElement = $state<HTMLFormElement | null>(null);
 
+  // Set form values programmatically instead of using hidden inputs
+  // Update taskId when it changes
+  $effect(() => {
+    submitAction.fields.taskId.set(taskId);
+  });
+
+  // Update languageId when it changes
+  $effect(() => {
+    if (selectedLanguageId !== null) {
+      submitAction.fields.languageId.set(selectedLanguageId);
+    }
+  });
+
+  // Update solution file when it changes
+  $effect(() => {
+    if (selectedFiles) {
+      submitAction.fields.solution.set(selectedFiles);
+    }
+  });
+
   function getFileExtension(filename: string): string {
     return filename.split('.').pop()?.toLowerCase() || '';
   }
@@ -120,20 +140,7 @@
             }
           }
         })}
-      >
-        <input {...submitAction.fields.taskId.as('number')} bind:value={taskId} hidden />
-        <input
-          {...submitAction.fields.languageId.as('number')}
-          bind:value={selectedLanguageId}
-          hidden
-        />
-        <input
-          {...submitAction.fields.solution.as('file')}
-          bind:files={selectedFiles}
-          type="file"
-          hidden
-        />
-      </form>
+      ></form>
 
       <LanguageSelector {languages} bind:selectedLanguageId />
 

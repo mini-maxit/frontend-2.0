@@ -17,7 +17,10 @@
   import UserX from '@lucide/svelte/icons/user-x';
   import Users from '@lucide/svelte/icons/users';
   import * as m from '$lib/paraglide/messages';
-  import { formatDistanceToNow } from 'date-fns';
+  import { formatDistanceToNow, parseISO } from 'date-fns';
+  import { getDateFnsLocale } from '$lib/utils';
+
+  const locale = getDateFnsLocale();
 
   interface Props {
     data: {
@@ -100,7 +103,7 @@
                 <div>
                   <span class="font-medium">{m.admin_registration_requests_requested()}:</span>
                   <span class="text-muted-foreground">
-                    {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}
+                    {formatDistanceToNow(parseISO(request.createdAt), { addSuffix: true, locale })}
                   </span>
                 </div>
               </div>

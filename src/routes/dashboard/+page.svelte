@@ -3,17 +3,12 @@
   import { getCurrentUser } from './user.remote';
   import { LoadingSpinner, ErrorCard } from '$lib/components/common';
   import * as m from '$lib/paraglide/messages';
-  import { getLocale } from '$lib/paraglide/runtime';
+  import { format } from 'date-fns';
+  import { getDateFnsLocale } from '$lib/utils';
 
   const userQuery = getCurrentUser();
 
-  const today = new Date();
-  const dateString = today.toLocaleDateString(getLocale(), {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
+  const dateString = format(new Date(), 'EEEE, MMMM d, yyyy', { locale: getDateFnsLocale() });
 </script>
 
 {#if userQuery.error}
